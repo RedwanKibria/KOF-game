@@ -49,7 +49,12 @@ const updateGame = (p1,p2,gameState) => {
   p1HealthDiv.innerText = p1.health
   p2HealthDiv.innerText = p2.health
   // Condition IF either player health is <= 0 then set isOver to true and declareWinner
-
+  if(p1.health <= 0 || p2.health <= 0){
+    game.isOver = true
+    gameState = game.isOver
+    resultDiv.innerText = game.declareWinner(game.isOver, p1, p2)
+    return gameState
+  }
 }
 
 // ** Create the Player class which can create a player with all it's attributes and methods **
@@ -67,13 +72,13 @@ class Player {
   strike (player, enemy, attackDmg) {
     
     // Get random number between 1 - 10 and that is damageAmount
-
+    let damageAmount = Math.ceil(Math.random() *10)
     // Subtract the enemy health with the damageAmount
-
+    enemy.health -= damageAmount 
     //  Update the game and DOM with updateGame()
-
+    updateGame(player, enemy, game.isOver)
     //  Return a message of 'player name attacks enemy name for damageAmount'
-
+    return `${player.name} attacks ${enemy.name} for ${damageAmount}`
   }
   // ** Heal the player for random number from  1 to 5 **
   heal (player) {
